@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Registro{% endblock %}</title>
+
+    {% block stylesheets %}
+
+        <link href="{{ asset('librerias/bootstrap5/css/bootstrapp.css') }}" rel="stylesheet"  type="text/css" />
+
+        <!-- Font Awesome -->
+        <link href="{{ asset('librerias/fontawesome/css/all.css') }}" rel="stylesheet"  type="text/css" />
+
+        <!-- Tabler -->
+        <link href="{{ asset('librerias/tabler/css/tabler.min.css') }}" rel="stylesheet"  type="text/css" />
+
+        <!-- Custom -->
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet"  type="text/css" />
+
+    {% endblock %}
+</head>
+<body class="border-top-wide border-primary d-flex flex-column theme-light">
+    <div class="page page-center">
+      <div class="container-tight py-4">
+        <div class="empty">
+          <div class="empty-header">500</div>
+          <p class="empty-title">Oops… You just found an error page</p>
+          <p class="empty-subtitle text-muted">
+            We are sorry but our server encountered an internal error 
+          </p>
+          <div class="empty-action">
+            <a href="{{ path('usuario_login') }}" class="btn btn-primary">
+              Ir al Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </div> 
+</body>
+</html>

@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <body class="border-top-wide border-primary d-flex flex-column theme-light">
+    <div class="page page-center">
+      <div class="container-tight py-4">
+        <div class="text-center mb-4">
+          <img src="{{ asset('img/logo.png') }}" alt="logo" width="200" class="">
+        </div>
+
+        {{ form_start(resetForm,{ 'attr': {'class': 'card card-md', 'id': 'form', 'enctype': 'multipart/form-data'}}) }}
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Forgot password</h2>
+            <p class="text-muted mb-4">Enter your email address and your password will be reset and emailed to you.</p>
+            <div class="mb-3">
+              <label class="form-label">Contraseña</label>
+              {{ form_widget(resetForm.plainPassword.first, { 'attr': {'class': 'form-control', 'autocomplete': 'off', 'required': 'required'} }) }}
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confirmar contraseña</label>
+              {{ form_widget(resetForm.plainPassword.second, { 'attr': {'class': 'form-control', 'autocomplete': 'off', 'required': 'required', 'equalTo': '#change_password_form_plainPassword_first'} }) }}
+            </div>
+
+            <div class="form-footer">
+              <button class="btn btn-primary w-100">
+                Resetear contraseña
+              </button>
+            </div>
+          </div>
+        {{ form_end(resetForm) }}
+
+        <div class="text-center text-muted mt-3">
+          Forget it, <a href="./sign-in.html">send me back</a> to the sign in screen.
+        </div>
+      </div>
+    </div>  
+</body>
+
+
+
+
+
+
+
+    {#<h1>Reset your password</h1>
+
+    {{ form_start(resetForm) }}
+        {{ form_row(resetForm.plainPassword) }}
+        <button class="btn btn-primary">Reset password</button>
+    {{ form_end(resetForm) }}#}
+{% endblock %}

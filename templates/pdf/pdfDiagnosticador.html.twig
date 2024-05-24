@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+
+<table border="1" width="100%">
+	<tr>
+		<th width="15%">CECMED</th>
+		<th>RECEPCIÓN Y ENTREGA</th>
+		<th width="15%">Edición 02</th>
+	</tr>
+	<tr>
+		<th colspan="3">LISTADO DE PRODUCTOS PENDIENTES DE EVALUAR DE DIAGNOSTICADORES (PNO 14 003) </th>
+	</tr>
+</table>
+
+<br>
+
+<div>
+	<span>LS No. {{ ls.numero }}</span>
+	<span style="float: right;">Fecha de cierre: {{ ls.fecha|date('d-m-Y') }}</span>
+</div>
+
+<br>
+
+<table border="1" width="100%">
+	<tr>
+		<th>Código</th>
+		<th width="35%">Nombre del Producto </th>
+		<th>Fecha Factura</th>
+		<th>Solicitante</th>
+		<th>Trámite</th>
+		<th>Denominación</th>
+	</tr>
+
+	{% for s in ls.solicitudes %}
+	<tr>
+		<td>{{ s.codigo }}</td>
+		<td>{{ s.producto.nombre }}</td>
+		<td>{{ s.vale.fechafactura|date('d-m-Y') }}</td>
+		<td>{{ s.solicitante.nombre }}</td>
+		<td>{{ s.tipotramite.nombre }}</td>
+		<td>{{ s.denominacion ? s.denominacion.nombre : ''}}</td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+	</tr>
+
+</table>
+
+<br><br>
+
+<table border="1" width="100%">
+	<tr>
+		<td><b>Elaborado por: {{ ls.solicitudes|last.especialista ? ls.solicitudes|last.especialista.nombre : 'Admin' }}</b></td>
+		<td><b>Fecha: {{ ls.fecha|date('d-m-Y') }}</b></td>
+		<td><b>Firma: </b></td>
+	</tr>
+	<tr>
+		<td><b>Aprobado por: Dra. Miriam Socorro </b></td>
+		<td><b>Fecha: {{ ls.fecha|date('d-m-Y') }}</b></td>
+		<td><b>Firma: </b></td>
+	</tr>
+</table>
+
+</body>
+</html>

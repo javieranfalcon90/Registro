@@ -1,0 +1,546 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="container-xl">
+      <!-- Page title -->
+      <div class="page-header d-print-none">
+        <div class="row g-2 align-items-center">
+          <div class="col" style="display: flex;">
+            <h2 class="page-title">
+              Código: {{ solicitud.codigo }} 
+            </h2>
+            <div class="mt-1 ms-3">
+            {% if(solicitud.estado == 'Nuevo') %}
+                <span class="badge bg-info">{{solicitud.estado}}</span> 
+            {% elseif (solicitud.estado == 'En Archivo') %}
+                <span class="badge bg-primary">{{solicitud.estado}}</span> 
+            {% elseif (solicitud.estado == 'Rechazado') %}
+                <span class="badge bg-danger">{{solicitud.estado}}</span> 
+            {% elseif (solicitud.estado == 'En Evaluación') %}
+                <span class="badge bg-warning">{{solicitud.estado}}</span> 
+            {% elseif (solicitud.estado == 'Concluido') %}
+                <span class="badge bg-success">{{solicitud.estado}}</span>
+            {% elseif (solicitud.estado == 'CD') %}
+                <span class="badge bg-secondary">{{solicitud.estado}}</span> 
+            {% endif %}
+            </div>
+          </div>
+
+
+          {% if solicitud.estado == 'Nuevo' %}
+
+             <div class="col-12 col-md-auto ms-auto d-print-none">      
+
+                  <span class="dropdown">
+                    <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Acciones</button>
+                    <div class="dropdown-menu dropdown-menu-end">
+
+                          {#<a href="#" class="dropdown-item preevaluar" id="{{solicitud.id}}">Evaluar</a>#}
+
+                          <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-preevaluacion">Preevaluar</a>
+
+                          <a class="dropdown-item" href="{{ path('solicitud_edit',{'id': solicitud.id}) }}">Editar</a>
+                          <a class="dropdown-item confirmacion eliminar" href="#" id="{{ solicitud.id }}" token="{{ csrf_token('delete' ~ solicitud.id) }}">Eliminar</a>   
+                      
+                    </div>
+                  </span>
+              </div>
+
+          {% endif %}
+
+          {% if solicitud.estado == 'En Archivo' and not solicitud.vale %}
+
+              <div class="col-12 col-md-auto ms-auto d-print-none">                            
+                  <span class="dropdown">
+                    <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Acciones</button>
+                    <div class="dropdown-menu dropdown-menu-end">
+
+                          <a href="{{ path('solicitud_revertirpreevaluacion', {'id': solicitud.id}) }}" class="dropdown-item">Revertir Preevaluación</a>
+                    </div>
+                  </span>
+              </div>
+
+          {% endif %}
+
+          {% if solicitud.estado == 'En Evaluación' %}
+
+             <div class="col-12 col-md-auto ms-auto d-print-none">                            
+                  <span class="dropdown">
+                    <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Acciones</button>
+                    <div class="dropdown-menu dropdown-menu-end">
+
+                          <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-concluir">Concluir</a>
+                          {#<a href="#" class="dropdown-item concluir" id="{{solicitud.id}}">Concluir</a> #}
+                    </div>
+                  </span>
+              </div>
+ 
+          {% endif %}
+
+          {% if solicitud.estado == 'Concluido' or solicitud.estado == 'CD'  %}
+
+             <div class="col-12 col-md-auto ms-auto d-print-none">                            
+                  <span class="dropdown">
+                    <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Acciones</button>
+                    <div class="dropdown-menu dropdown-menu-end">
+
+                          <a href="{{ path('solicitud_revertirconclusion', {'id': solicitud.id}) }}" class="dropdown-item">Revertir Conclusión</a>
+                          {#<a href="#" class="dropdown-item concluir" id="{{solicitud.id}}">Concluir</a> #}
+                    </div>
+                  </span>
+              </div>
+ 
+          {% endif %}
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+
+            <div class="row row-cards">
+
+                <div class="col-2">
+                <div class="card card-sm">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="bg-primary text-white avatar">
+                            <i class="fa fa-flag"></i>
+                        </span>
+                      </div>
+                      <div class="col">
+                        <div class="font-weight-medium">
+                          Entrada
+                        </div>
+                        <div class="text-muted">
+                          {{ solicitud.fechaentrada|date('d-m-Y') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                {% if solicitud.preevaluacion %}
+                <div class="col-2">
+                <div class="card card-sm">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="bg-primary text-white avatar">
+                            <i class="fa fa-comment-dots"></i>
+                        </span>
+                      </div>
+                      <div class="col">
+                        <div class="font-weight-medium">
+                          {{solicitud.preevaluacion}}
+                        </div>
+                        <div class="text-muted">
+                          {{ solicitud.fechapreevaluacion|date('d-m-Y') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                {% endif %}
+
+
+                {% if solicitud.vale %}
+
+                <div class="col-2">
+                <div class="card card-sm">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="bg-primary text-white avatar">
+                            <i class="fa fa-ticket-alt"></i>
+
+                        </span>
+                      </div>
+                      <div class="col">
+                        <div class="font-weight-medium">
+                          Pre factura
+                        </div>
+                        <div class="text-muted">
+                          {{ solicitud.vale.fechavale|date('d-m-Y') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                {% endif %}
+
+                {% if solicitud.vale and solicitud.vale.factura %}
+
+                <div class="col-2">
+                <div class="card card-sm">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="bg-primary text-white avatar">
+                            <i class="fa fa-money-bill"></i>
+
+                        </span>
+                      </div>
+                      <div class="col">
+                        <div class="font-weight-medium">
+                          Factura 
+                        </div>
+                        <div class="text-muted">
+                          {{ solicitud.vale.fechafactura|date('d-m-Y') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                {% endif %}
+
+                {% if solicitud.ls %}
+
+                <div class="col-2">
+                <div class="card card-sm">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="bg-primary text-white avatar">
+                            <i class="fa fa-hashtag"></i>
+
+                        </span>
+                      </div>
+                      <div class="col">
+                        <div class="font-weight-medium">
+                          Ls 
+                        </div>
+                        <div class="text-muted">
+                          {{ solicitud.ls.fecha|date('d-m-Y') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                {% endif %}
+
+                {% if solicitud.fechacierre %}
+
+                <div class="col-2">
+                <div class="card card-sm">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col-auto">
+                        <span class="bg-primary text-white avatar">
+                            <i class="fa fa-flag"></i>
+                        </span>
+                      </div>
+                      <div class="col">
+                        <div class="font-weight-medium">
+                          {{ solicitud.estado }}
+                        </div>
+                        <div class="text-muted">
+                          {{ solicitud.fechacierre|date('d-m-Y') }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            <br>
+
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <table class="table table-transparent table-responsive mt-3">
+                            <tbody>
+                                <tr>
+                                    <td><b>Tipo Producto</b><br> {{ solicitud.tipoproducto }} </td>
+                                    <td><b>Tipo Trámite</b><br> {{ solicitud.tipotramite }} </td>
+                                    <td><b>Especialista</b><br>{{ (solicitud.especialista) ? solicitud.especialista.nombre : 'Administrador'}} </td>
+                                    <td><b>Muestras</b><br> {% if solicitud.muestra == 1 %}Si {% else %} No {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><b>Nombre del Producto</b><br> {{ solicitud.producto }} </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Fabricante</b><br> {{ solicitud.fabricante }} </td>
+                                    <td><b>Pais</b><br> {{ solicitud.paisfabricante }}</td>
+                                    <td><b>Solicitante</b><br> {{ solicitud.solicitante }}</td>
+                                    <td><b>Pais</b><br> {{ solicitud.paissolicitante }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><b>Persona de Contacto</b><br> {{ solicitud.personacontacto }}</td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><b>Forma Farmacéutica</b><br> {{ solicitud.ff ? solicitud.ff : '-' }}</td> 
+                                    <td colspan="2"><b>Ingrediente Farmacéutico Activo</b><br> {{ solicitud.ifa ? solicitud.ifa : '-' }}</td>                                   
+                                </tr>
+                                <tr>
+                                    <td><b>Fortaleza</b><br> {{ solicitud.fortaleza ? solicitud.fortaleza : '-' }}</td>
+                                    <td><b>Clase de Riesgo</b><br> {{ solicitud.clasederiesgo ? solicitud.clasederiesgo : '-' }}</td>
+                                    <td><b>Categoria</b><br> {{ solicitud.categoria ? solicitud.categoria : '-' }}</td>
+                                    <td><b>Parte a Evaluar</b><br> 
+                                      {% if solicitud.parteaevaluar|length > 0 %}
+                                        {% for p in solicitud.parteaevaluar  %}{{ p }}{% endfor %}
+                                      {% else %}
+                                        -
+                                      {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><b>Observaciones</b><br> {{ solicitud.observaciones ? solicitud.observaciones : '-' }}</td>
+                                </tr>
+                                
+                            </tbody>
+                            </table>
+                                    
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <br>
+
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+
+
+                          <div class="row mt-3">
+                            <div class="col-3 text-center">
+                              <i class="fa fa-ticket-alt fa-2x text-primary"></i><br><b>Prefactura</b><br> {{ solicitud.vale ? solicitud.vale.vale : '-' }}
+                            </div>
+                            <div class="col-3 text-center">
+                              <i class="fa fa-money-bill fa-2x text-primary"></i><br><b>Factura</b><br> {{ solicitud.vale ? solicitud.vale.factura : '-' }}
+                            </div>
+                            <div class="col-3 text-center">
+                              <i class="fa fa-hashtag fa-2x text-primary"></i><br><b>LS</b><br> {{ solicitud.ls ? solicitud.ls.numero : '-' }}
+                            </div>
+                            <div class="col-3 text-center">
+                              <i class="fa fa-flag-checkered fa-2x text-primary"></i><br><b>Conclusiones</b><br> 
+                                    {% if solicitud.conclusiones|length != 0 %}
+                                    {% for conc in solicitud.conclusiones %}
+                                      {{ conc.nombre }}
+                                    {% endfor %}
+                                    {% else %}
+                                      -
+                                    {% endif %}
+                            </div>
+                          </div>
+                                    
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+                  
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal modal-blur fade" id="modal-preevaluacion" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Preevaluación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-preevaluacion" _id="{{solicitud.id}}">
+
+          <div class="mb-3">
+            <label class="form-label">Preevaluación*</label>
+              <label class="form-check form-check-inline" style="width: 50%;">
+                <input id="eval" class="form-check-input" type="radio" name="eval" required value="Aprobado">
+                <span class="form-check-label">Aprobar</span>
+              </label>
+
+              <label class="form-check form-check-inline">
+                <input id="eval" class="form-check-input" type="radio" name="eval" required value="Rechazado">
+                <span class="form-check-label">Rechazar</span>
+              </label>
+            <span class="error"></span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Fecha Preevaluación*</label>
+            <input id="fechapreevaluacion" type="text" name="fechapreevaluacion" class="form-control datepick" required>
+            <span class="error"></span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn me-auto" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="">Evaluar</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal modal-blur fade" id="modal-concluir" role="dialog" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cierre</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        {{ form_start(form,{ 'attr': {'action': path('solicitud_concluir', {'id': solicitud.id}), 'class': 'form-concluir form-horizontal', 'enctype': 'multipart/form-data'}}) }}
+
+          <div class="mb-3">
+            <label class="form-label">Cierre*</label>
+
+              <label class="form-check form-check-inline" style="width: 50%;">
+                {{ form_widget(form.estado[0], { 'attr': {'class': '', 'autocomplete': 'off', 'required': 'required'} }) }}
+                {{ form_label(form.estado[0],form.estado[0], {'label_attr': {'class': 'custom-control-label'}}) }}
+              </label>
+
+              <label class="form-check form-check-inline">
+                {{ form_widget(form.estado[1], { 'attr': {'class': '', 'autocomplete': 'off', 'required': 'required'} }) }}
+                {{ form_label(form.estado[1],form.estado[1], {'label_attr': {'class': 'custom-control-label'}}) }}
+              </label>
+
+            <span class="error"></span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Fecha Cierre*</label>
+            {{ form_widget(form.fechacierre, { 'attr': {'class': 'form-control datepick', 'autocomplete': 'off', 'required': 'required'} }) }}
+            <span class="error"></span>
+          </div>
+
+          <div class="mb-3 d-none" id="conclusion">
+            <label class="form-label">Conclusión*</label>
+            {{ form_widget(form.conclusiones, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off'} }) }}
+            <span class="error"></span>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn me-auto" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="">Concluir</button>
+        </div>
+
+      {{ form_end(form) }}
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+    <script>
+
+        //select_menu('configuracion_menu');
+        
+        $(document).ready(function() {
+
+          {# Incluyendo la vista que contiene los mensajes de alertas #}
+          {{ include("message.html.twig") }}
+
+          /* Funcionalidad para el comportamiento de la confirmación para eliminar elemento */
+          $(".eliminar").on("click", function() {
+            var id = $(this).attr("id");
+
+            var token = $(this).attr("token");
+            var rutaEliminar = Routing.generate("solicitud_delete", { id: id });
+            var rutaRedirect = Routing.generate("solicitud_index");
+            createDelete(rutaEliminar, rutaRedirect, token);
+          });
+
+          $('#modal-preevaluacion').on('hide.bs.modal', function () {
+            $('.form-preevaluacion').trigger("reset");
+
+          })
+          
+          $('.form-preevaluacion').submit(function(e){
+
+            e.preventDefault();
+
+             eva = $('#eval').val();
+             fechapreevaluacion = $('#fechapreevaluacion').val();
+
+            if(  eva != '' && fechapreevaluacion != '')  {
+
+              var id = $(this).attr("_id");
+
+              var ruta = Routing.generate("solicitud_preevaluar", { id: id });
+
+              var newData = $('.form-preevaluacion').serialize();
+
+              $.ajax({
+                url: ruta,
+                data: newData,
+                method: "POST"
+              }).always(function() {
+                swal.close();
+                location.reload();
+              });
+
+            }
+          });
+
+          $('#modal-concluir').on('hide.bs.modal', function () {
+            $('.form-concluir').trigger("reset");
+            $('.select2').val('').trigger('change');
+            $('#conclusion').addClass('d-none');
+          })
+
+          $('#conclusion_solicitud_estado_0').change(function() {
+              if(this.checked) {
+                  $('#conclusion').removeClass('d-none');
+                  $('#conclusion').attr('required', true);
+              }      
+          });
+          $('#conclusion_solicitud_estado_1').change(function() {
+              if(this.checked) {
+                $('#conclusion').addClass('d-none');
+                $('#conclusion').attr('required', false);
+
+              }       
+          });
+
+
+        });
+
+    </script>
+
+{% endblock %}
+
+
+
+

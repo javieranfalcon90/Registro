@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <body class="border-top-wide border-primary d-flex flex-column theme-light">
+    <div class="page page-center">
+      <div class="container-tight py-4">
+        <div class="text-center mb-4">
+          <img src="{{ asset('img/logo.png') }}" alt="logo" width="200" class="">
+        </div>
+
+
+        {{ form_start(requestForm,{ 'attr': {'class': 'card card-md'}}) }}
+
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Olvidó su contraseña?</h2>
+            <p class="text-muted mb-4">Introduzca su dirección de correo y su contraseña será reseteada y enviada a su correo.</p>
+            <div class="mb-3">
+              <label class="form-label">Dirección de correo</label>
+              {{ form_widget(requestForm.email, { 'attr': {'class': 'form-control', 'autocomplete': 'off', 'required': 'required'} }) }}
+            </div>
+            <div class="form-footer">
+              <button class="btn btn-primary w-100">
+                Enviarme una contraseña
+              </button>
+            </div>
+          </div>
+
+        {{ form_end(requestForm) }}
+
+        <div class="text-center text-muted mt-3">
+          Olvídalo, <a href="{{ path('usuario_login') }}">envíame de vuelta</a> a la pantalla de logueo.
+        </div>
+      </div>
+    </div>  
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+    {#
+    {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    <h1>Reset your password</h1>
+
+    {{ form_start(requestForm) }}
+        {{ form_row(requestForm.email) }}
+        <div>
+            <small>
+                Enter your email address and we will send you a
+                link to reset your password.
+            </small>
+        </div>
+
+        <button class="btn btn-primary">Send password reset email</button>
+    {{ form_end(requestForm) }}
+
+    #}
+{% endblock %}

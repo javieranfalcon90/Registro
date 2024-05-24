@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="page-preloader"></div>
+
+<div class="page">
+
+  <header class="navbar navbar-expand-md navbar-light d-print-none">
+  <div class="container-xl">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+        <i class="fa fa-archive text-primary fa-2x"></i> <div class="ms-2"> REGISTRO</div>
+    </h1>
+    <div class="navbar-nav flex-row order-md-last">
+      <div class="nav-item dropdown">
+
+            <div class="nav-item dropdown">
+              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu" aria-expanded="false">
+                <i class="fa fa-user-circle fa-2x text-primary"></i>
+                <div class="d-none d-xl-block ps-2">
+                  <div>{{ app.user.useridentifier }}</div>
+                  <div class="mt-1 small text-muted">{{app.user.roles|last}}</div>
+                </div>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-popper="none">
+                <a href="#" class="dropdown-item">Settings</a>
+                <a href="{{ path('usuario_logout') }}" class="dropdown-item">Logout</a>
+              </div>
+            </div>
+
+      </div>
+    </div>
+  </div>
+  </header>
+
+  <div class="navbar-expand-md">
+  <div class="collapse navbar-collapse" id="navbar-menu">
+    <div class="navbar navbar-light">
+      <div class="container-xl">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_homepage') }}">
+              <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="fa fa-home"></i>
+              </span>
+              <span class="nav-link-title">
+                Inicio
+              </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('solicitud_index') }}">
+              <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="fa fa-copy"></i>
+              </span>
+              <span class="nav-link-title">
+                Solicitudes
+              </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('vale_index') }}">
+              <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="fa fa-tags"></i>
+              </span>
+              <span class="nav-link-title">
+                Facturas
+              </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('ls_index') }}">
+              <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="fa fa-asterisk"></i>
+              </span>
+              <span class="nav-link-title">
+                LS
+              </span>
+            </a>
+          </li>
+
+          {% if not is_granted('ROLE_CONSULTOR') %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+              <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="fa fa-cogs"></i>
+              </span>
+              <span class="nav-link-title">
+                Configuración
+              </span>
+            </a>
+            <div class="dropdown-menu" data-bs-popper="none">
+              <div class="dropdown-menu-columns">
+                <div class="dropdown-menu-column">
+
+                  <a class="dropdown-item" href="{{ path('tipoproducto_index') }}">
+                    Tipos de Producto
+                  </a>
+                  <a class="dropdown-item" href="{{ path('producto_index') }}">
+                    Productos
+                  </a>
+                  <a class="dropdown-item" href="{{ path('fabricante_index') }}">
+                    Fabricantes
+                  </a>
+
+                  <a class="dropdown-item" href="{{ path('ifa_index') }}">
+                    Ifa
+                  </a>
+                  <a class="dropdown-item" href="{{ path('pais_index') }}">
+                    Países
+                  </a>
+                  <a class="dropdown-item" href="{{ path('denominacion_index') }}">
+                    Denominaciones
+                  </a>
+                  <a class="dropdown-item" href="{{ path('especialista_index') }}">
+                    Especialistas
+                  </a>
+                </div>
+                <div class="dropdown-menu-column">
+                  <a class="dropdown-item" href="{{ path('tipotramite_index') }}">
+                    Tipos de Trámite
+                  </a>
+                  <a class="dropdown-item" href="{{ path('parteaevaluar_index') }}">
+                    Partes a Evaluar
+                  </a>
+                  <a class="dropdown-item" href="{{ path('ff_index') }}">
+                    Formas Farmacéuticas
+                  </a>
+                  <a class="dropdown-item" href="{{ path('categoria_index') }}">
+                    Categorías
+                  </a>     
+                  <a class="dropdown-item" href="{{ path('clasederiesgo_index') }}">
+                    Clases de Riesgo
+                  </a>             
+                  <a class="dropdown-item" href="{{ path('solicitante_index') }}">
+                    Solicitantes
+                  </a>
+                  <a class="dropdown-item" href="{{ path('conclusion_index') }}">
+                    Conclusiones
+                  </a>
+
+                </div>
+            </div>
+          </li>
+          {% endif %}
+
+          {% if is_granted('ROLE_ADMINISTRADOR') %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
+              <span class="nav-link-icon d-md-none d-lg-inline-block">
+                <i class="fa fa-key"></i>
+              </span>
+              <span class="nav-link-title">
+                Seguridad
+              </span>
+            </a>
+            <div class="dropdown-menu" data-bs-popper="none">
+              <div class="dropdown-menu-columns">
+                <div class="dropdown-menu-column">
+                  <a class="dropdown-item" href="{{ path('user_index') }}">
+                    Usuarios
+                  </a>
+                </div>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="page-wrapper">
+  
+      {% block content %}{% endblock %}
+
+    <footer class="footer footer-transparent d-print-none">
+      <div class="container-xl">
+        <div class="row text-center align-items-center flex-row-reverse">
+          <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+            <ul class="list-inline list-inline-dots mb-0">
+              <li class="list-inline-item">
+                Copyright © {{ 'now'|date('Y') }}  
+                All rights reserved.
+              </li>
+              <li class="list-inline-item">
+                Departamento de Infocomunicaciones CECMED
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+
+{% endblock %}

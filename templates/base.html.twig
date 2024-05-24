@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}Registro{% endblock %}</title>
+
+    {% block stylesheets %}
+
+        {#<link href="{{ asset('librerias/bootstrap5/css/bootstrapp.css') }}" rel="stylesheet"  type="text/css" />#}
+
+        <!-- Font Awesome -->
+        <link href="{{ asset('librerias/fontawesome/css/all.css') }}" rel="stylesheet"  type="text/css" />
+
+        <!-- Data Tables -->
+        <link href="{{ asset('librerias/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
+        
+        <!-- DateRangePicker -->
+        <link href="{{ asset('librerias/daterangepicker/css/daterangepicker.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Yearpicker -->
+        <link href="{{ asset('librerias/yearpicker/yearpicker.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Sweetalert2 -->
+        <link href="{{ asset('librerias/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Select2 -->
+        <link href="{{ asset('librerias/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('librerias/select2/select2-bootstrap5.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Toastify -->
+        <link href="{{ asset('librerias/toastify/toastify.css') }}" rel="stylesheet" type="text/css" />
+        
+        <!-- Tabler -->
+        <link href="{{ asset('librerias/tabler/css/tabler.min.css') }}" rel="stylesheet"  type="text/css" />
+
+        <!-- Apexcharts -->
+        <link href="{{ asset('librerias/apexcharts/apexcharts.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Custom -->
+        <link href="{{ asset('css/style.css') }}" rel="stylesheet"  type="text/css" />
+
+    {% endblock %}
+</head>
+
+<body class="layout-fluid theme-light">
+
+{% block body %}{% endblock %} 
+
+{% block javascripts %}
+
+    <!-- jQuery -->
+    <script src="{{ asset('librerias/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap 5 -->
+    <script src="{{ asset('librerias/bootstrap5/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Data Tables -->
+    <script src="{{ asset('librerias/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('librerias/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- DateRangePicker -->
+    <script src="{{ asset('librerias/moment/moment-with-locales.js') }}"></script>
+    <script src="{{ asset('librerias/daterangepicker/js/daterangepicker.js') }}"></script>
+
+    <!-- Yearpicker -->
+    <script src="{{ asset('librerias/yearpicker/yearpicker.js') }}"></script>
+
+    <!-- Sweetalert2 -->
+    <script src="{{ asset('librerias/sweetalert2/sweetalert2.min.js') }}"></script>
+
+    <!-- Toastify -->
+    <script src="{{ asset('librerias/toastify/toastify.js') }}"></script>
+
+    <!-- Select2 -->
+    <script src="{{ asset('librerias/select2/select2.min.js') }}"></script>
+
+    <!-- Apexcharts -->
+    <script src="{{ asset('librerias/apexcharts/apexcharts.min.js') }}"></script>
+
+    <!-- JQuery Validate -->
+    <script src="{{ asset('librerias/jquery-validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('librerias/jquery-validate/additional-methods.js') }}"></script>
+    <script src="{{ asset('librerias/jquery-validate/localization/messages_es.min.js') }}"></script>
+    
+    <!-- Custom -->
+    <script src="{{ asset('js/cecmedConfirmacion.js') }}"></script>
+    <script src="{{ asset('js/cecmedDataTable.js') }}"></script>
+    <script src="{{ asset('js/cecmedValidacion.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
+
+
+{% endblock %}
+</body>
+</html>
+

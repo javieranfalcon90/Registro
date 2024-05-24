@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+
+<table border="1" width="100%">
+	<tr>
+		<th><br>LISTADO DE PRODUCTOS PENDIENTES DE EVALUAR (PNO 14.001) <br><br></th>
+	</tr>
+</table>
+
+<br>
+
+<div>
+	<span>LS No. {{ ls.numero }}</span>
+	<span style="float: right;">Fecha de cierre: {{ ls.fecha|date('d-m-Y') }}</span>
+</div>
+
+<br>
+
+<table border="1" width="100%">
+	<tr>
+		<th>Código</th>
+		<th width="35%">Nombre del Fabricante, Suministrador o Importador o Equipo/Dispositivo médico </th>
+		<th>Solicitante/País</th>
+		<th>Tipo de Trámite</th>
+		<th>Parte a Evaluar</th>
+		<th>Fecha Factura</th>
+	</tr>
+
+	{% for s in ls.solicitudes %}
+	<tr>
+		<td>{{ s.codigo }}</td>
+		<td>{{ s.producto.nombre }}</td>
+		<td>{{ s.solicitante.nombre }}/{{ s.paissolicitante.nombre }}</td>
+		<td>{{ s.tipotramite.nombre }}</td>
+		<td>
+			{% for p in s.parteaevaluar %}
+			{{ p.nombre }}
+			{% endfor %}
+		</td>
+		<td>{{ s.vale.fechafactura|date('d-m-Y') }}</td>
+
+	</tr>
+	{% endfor %}
+	<tr>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+	</tr>
+	<tr>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+		<td>&nbsp</td>
+	</tr>
+
+</table>
+
+<br><br>
+
+<table border="1" width="100%">
+	<tr>
+		<td><b>Elaborado por: {{ ls.solicitudes|last.especialista ? ls.solicitudes|last.especialista.nombre : 'Admin' }}</b></td>
+		<td><b>Fecha: {{ ls.fecha|date('d-m-Y') }}</b></td>
+		<td><b>Firma: </b></td>
+	</tr>
+	<tr>
+		<td><b>Aprobado por: Dra. Miriam Socorro </b></td>
+		<td><b>Fecha: {{ ls.fecha|date('d-m-Y') }}</b></td>
+		<td><b>Firma: </b></td>
+	</tr>
+</table>
+
+</body>
+</html>

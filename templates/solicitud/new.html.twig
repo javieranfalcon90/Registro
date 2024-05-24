@@ -1,0 +1,342 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="container-xl">
+      <!-- Page title -->
+      <div class="page-header d-print-none">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Solicitudes
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-status-top bg-blue"></div>
+                        <div class="card-header">
+                            <h3 class="card-title">Formulario</h3>
+                        </div>
+                        <div class="card-body">
+                            {{ form_start(form,{ 'attr': {'class': 'form-horizontal', 'id': 'form', 'enctype': 'multipart/form-data', 'novalidate': 'novalidate'}}) }}
+
+
+                                
+                                <div class="mb-4 row">
+
+                                <label class="form-selectgroup-item flex-fill">
+                                    {{ form_widget(form.iscd, { 'attr': {'class': 'form-selectgroup-input'} }) }}
+
+                                <div class="form-selectgroup-label d-flex align-items-center p-3">
+                                  <div class="me-3">
+                                    <span class="form-selectgroup-check"></span>
+                                  </div>
+                                  <div class="form-selectgroup-label-content d-flex align-items-center">
+                                    <span class="avatar me-3">CD</span>
+                                    <div>
+                                      <div class="font-weight-medium">Marque esta opción si la solicitud constituye un completamiento de documentación?</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </label>
+
+
+
+                                    
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Fecha Entrada*</label>
+                                    {{ form_widget(form.fechaentrada, { 'attr': {'class': 'form-control datepick', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                    <span class="error"></span>
+                                </div>
+
+                                <div class="mb-3 cd d-none">
+                                    <label class="form-label">Código* </label>
+                                    <select name="cod" class="form-control select2" required>
+                                    <option></option>
+                                        {% for s in solicitudes_cd %}
+                                            <option value="{{ s.id }}">{{ s.codigo }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <span class="error"></span>
+                                </div>
+
+
+                                
+
+                                    
+
+                                <div class="no_cd">
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Tipo de Trámite*</label>
+                                        {{ form_widget(form.tipotramite, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                        <span class="error"></span>
+                                    </div>
+
+                                    <div class="mb-3 ">
+                                        <label class="form-label">Código* {% if auto %} <i>El consecutivo disponible para el año actual: {{ auto }}</i> {% endif %}</label>
+                                        {{ form_widget(form.codigo, { 'attr': {'class': 'form-control', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                        <span class="error"></span>
+                                    </div>
+
+                                    <div class="divider">Datos del Producto</div>
+
+                                    <div class="row">
+
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Tipo de Producto*</label>
+                                            {{ form_widget(form.tipoproducto, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Producto*</label>
+                                            {{ form_widget(form.producto, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="medicamento_biologico d-none">
+                                        <div class="row">
+                                            <div class="mb-3 col-6">
+                                                <label class="form-label">Forma Farmacéutica*</label>
+                                                {{ form_widget(form.ff, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                                <span class="error"></span>
+                                            </div>
+
+                                            <div class="mb-3 col-6">
+                                                <label class="form-label">Ingrediente Farmacéutico Activo*</label>
+                                                {{ form_widget(form.ifa, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                                <span class="error"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="mb-3 col-4">
+                                                <label class="form-label">Fortaleza*</label>
+                                                {{ form_widget(form.fortaleza, { 'attr': {'class': 'form-control', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                                <span class="error"></span>
+                                            </div>
+
+                                            <div class="mb-3 col-4">
+                                                <label class="form-label">Categoria*</label>
+                                                {{ form_widget(form.categoria, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                                <span class="error"></span>
+                                            </div>
+
+                                            <div class="mb-3 col-4">
+                                                <label class="form-label">Parte a Evaluar*</label>
+                                                {{ form_widget(form.parteaevaluar, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                                <span class="error"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="diagnosticador_equipo d-none">
+                                        <div class="mb-3">
+                                            <label class="form-label">Clase de Riesgo*</label>
+                                            {{ form_widget(form.clasederiesgo, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+
+                                    </div>
+
+                                       <div class="diagnosticador d-none">
+                                            <div class="mb-3">
+                                                <label class="form-label">Denominación*</label>
+                                                {{ form_widget(form.denominacion, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                                <span class="error"></span>
+                                            </div>
+                                        </div>
+
+
+
+                                    <div class="divider">Datos del Solicitante y Fabricante</div>
+
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Solicitante*</label>
+                                            {{ form_widget(form.solicitante, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">País*</label>
+                                            {{ form_widget(form.paissolicitante, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Fabricante*</label>
+                                            {{ form_widget(form.fabricante, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Pais*</label>
+                                            {{ form_widget(form.paisfabricante, { 'attr': {'class': 'form-control select2', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="divider">Otros Datos de Interes</div>
+
+                                    <div class="row">
+
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label">Persona de Contacto*</label>
+                                            {{ form_widget(form.personacontacto, { 'attr': {'class': 'form-control', 'autocomplete': 'off', 'required': 'required'} }) }}
+                                            <span class="error"></span>
+                                        </div>
+
+                                    
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label mb-3">Muestras</label>
+                                            <label class="form-check form-switch">
+                                                {{ form_widget(form.muestra, { 'attr': {'class': 'form-check-input'} }) }}
+                                                <span id="checklabel" class="form-check-label">No</span>
+                                            </label>                                        
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Observaciones</label>
+                                        {{ form_widget(form.observaciones, { 'attr': {'class': 'form-control', 'autocomplete': 'off'} }) }}
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+
+                        </div>
+
+                        <div class="card-footer text-end">
+                          <div class="d-flex">
+                          
+                            {% if solicitud.id %}
+                                <a href="{{ path('solicitud_show', {'id': solicitud.id }) }}" class="btn btn-secondary">Cancel</a>                                     
+                            {% else %}
+                                <a href="{{ path('solicitud_index') }}" class="btn btn-secondary">Cancel</a>
+                            {% endif %}
+
+                            <button type="submit" class="btn btn-primary ms-auto">Guardar</button>
+
+                          </div>
+                        </div>
+
+                            {{ form_end(form) }}
+
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+    <script>
+
+        //select_menu('configuracion_menu');
+        
+        $(document).ready(function() {
+
+
+
+            {# Incluyendo la vista que contiene los mensajes de alertas #}
+            {{ include("message.html.twig") }}
+
+            $('#solicitud_tipoproducto').change(function() {
+
+                if($(this).val() == '4' /*Diagnosticador*/){
+                    $('.diagnosticador').removeClass('d-none');
+                }else{
+                    $('.diagnosticador').addClass('d-none');
+                    $('.diagnosticador').find('.select2').val(null).trigger('change');
+                }
+
+
+                if( $(this).val() == '1' || $(this).val() == '2' /*Medicamento o Biologico*/ ){
+                    $('.medicamento_biologico').removeClass('d-none');
+                    $('.diagnosticador_equipo').addClass('d-none');
+
+                    $('.diagnosticador_equipo').find('.form-control').val('');
+                    $('.diagnosticador_equipo').find('.select2').val(null).trigger('change');
+                }else{
+                    $('.diagnosticador_equipo').removeClass('d-none');
+                    $('.medicamento_biologico').addClass('d-none');
+
+                    $('.medicamento_biologico').find('.form-control').val('');
+                    $('.medicamento_biologico').find('.select2').val(null).trigger('change');
+
+                }
+            });
+
+            {% if solicitud.tipoproducto %}
+
+                {% if (solicitud.tipoproducto.id == '4') %}
+                    $('.diagnosticador').removeClass('d-none');
+                {% endif %} 
+
+                {% if (solicitud.tipoproducto.id == '1' or solicitud.tipoproducto.id == '2') %}
+                    $('.medicamento_biologico').removeClass('d-none');
+                {% else %}
+                    $('.diagnosticador_equipo').removeClass('d-none');
+                {% endif %}                
+            {% endif %}
+
+
+            {% if solicitud.iscd == 1 %}
+                $('#solicitud_iscd').attr('checked','checked');
+            {% else %}
+                $('#solicitud_iscd').removeAttr('checked');
+            {% endif %}
+            
+            $('#solicitud_iscd').change(function() {
+                if(this.checked){
+                    $('.cd').removeClass('d-none');
+                    $('.no_cd').addClass('d-none');
+
+                    $('.no_cd').find('.form-control').val('');
+                    $('.no_cd').find('.select2').val(null).trigger('change');
+                }else{
+                    $('.no_cd').removeClass('d-none');
+                    $('.cd').addClass('d-none');
+
+                    $('.cd').find('.form-control').val('');
+                    $('.cd').find('.select2').val(null).trigger('change');
+                }
+
+            });
+
+
+            $("#solicitud_muestra").change(function() {
+                if(this.checked) {
+                    $('#checklabel').html('Si');
+                }else{
+                    $('#checklabel').html('No');
+                }
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+
+

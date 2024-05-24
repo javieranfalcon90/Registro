@@ -1,0 +1,19 @@
+            {% for flash_message in app.session.flashbag.get('success') %}
+                    Toastify({
+                        text: "{{ flash_message }}",
+                        duration: 5000,
+                        gravity:"top",
+                        position: "center",
+                        backgroundColor: "#4fbe87",
+                    }).showToast();
+            {% endfor %}
+
+            {% for flash_message in app.session.flashbag.get('error') %}
+                    Toastify({
+                        text: "{{ flash_message }}",
+                        duration: 5000,
+                        gravity:"top",
+                        position: "center",
+                        backgroundColor: "#f3616d",
+                    }).showToast();
+            {% endfor %}

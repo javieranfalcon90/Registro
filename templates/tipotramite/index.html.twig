@@ -1,0 +1,87 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="container-xl">
+      <!-- Page title -->
+      <div class="page-header d-print-none">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Tipos de Trámite
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Listado</h3>
+
+
+                            <a href="{{ path('tipotramite_new') }}" class="btn btn-primary ms-auto">Insertar</a>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="col-12 pb-4 text-center"><b>Nota Importante:</b> No modificar o eliminar los tipos y sus codigos dado que es información sensible para el funcionamiento del sistema. (Inscripción, Renovación, Modificación, CD )</div>
+
+                            <table class="table dataTable card-table table-vcenter text-nowrap" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Nombre</th>
+                                        <th id="actions"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+    <script>
+
+        //select_menu('configuracion_menu');
+        
+        $(document).ready(function() {
+
+            /* Generando el componente DataTable */
+            var Nosortcol = [2];
+            var route = Routing.generate('tipotramite_dataTable');
+            var dataTable = createDataTable(Nosortcol, route);
+
+            /* Funcionalidad para el comportamiento de la confirmación para eliminar elemento */
+            $("#dataTable tbody").on("click", ".eliminar", function() {
+              var id = $(this).attr("id");
+
+              var token = $(this).attr("token");
+              var rutaEliminar = Routing.generate("tipotramite_delete", { id: id });
+              var rutaRedirect = Routing.generate("tipotramite_index");
+              createDelete(rutaEliminar, rutaRedirect, token);
+            });
+
+            {# Incluyendo la vista que contiene los mensajes de alertas #}
+            {{ include("message.html.twig") }}
+
+
+        });
+
+    </script>
+
+{% endblock %}
+

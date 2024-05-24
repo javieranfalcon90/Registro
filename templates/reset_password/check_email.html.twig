@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <body class="border-top-wide border-primary d-flex flex-column theme-light">
+    <div class="page page-center">
+      <div class="container-narrow py-4">
+        <div class="text-center mb-4">
+            <img src="{{ asset('img/logo.png') }}" alt="logo" width="200" class="">
+        </div>
+        <div class="card card-md">
+          <div class="card-body">
+            <h3 class="card-title">NOTIFICACIÓN</h3>
+            <div class="markdown">
+                <p>Si existe una cuenta que coincida, entonces se le enviará un correo que contiene un enlace que podrá usar para resetear su contraseña.
+                </p>
+                <p>
+                    El enlace expirará dentro de 1 hora.
+                </p>
+                <br>
+                <p>
+                    Si usted no recibe un correo por favor rebice su bandeja de spam o 
+                </p>
+
+                <a class="btn btn-primary" href="{{ path('app_forgot_password_request') }}">Vuelva a intentarlo</a>
+                <a class="ms-auto btn btn-primary" href="{{ path('usuario_login') }}">Ir a Login</a>
+                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+</body>
+
+
+
+
+    {#<p>
+        If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.
+        This link will expire in {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>If you don't receive an email please check your spam folder or <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>#}
+{% endblock %}

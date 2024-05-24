@@ -1,0 +1,17 @@
+<h1>Hola</h1>
+
+<p>Se ha realizado una solicitud de resetear contraseña en tu usuario del sistema de Registro del CECMED.</p><br>
+
+<p>
+    Si cree que esto se ha hecho por error, elimine y descarte este correo electrónico. Su cuenta aún es segura y nadie ha 
+    tenido acceso a ella. No está bloqueado y su contraseña no se ha restablecido. Alguien podría haber ingresado 
+    erróneamente su dirección de correo electrónico.
+</p><br>
+
+<p>Siga el enlace a continuación para ir al sistema y cambiar su contraseña.</p><br>
+
+<a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
+
+<p>Este enlace expirará pasado 1 hora</p>
+
+<p>Saludos</p>

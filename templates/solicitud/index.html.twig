@@ -1,0 +1,168 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+
+    <div class="container-xxl">
+      <!-- Page title -->
+      <div class="page-header d-print-none">
+        <div class="row g-2 align-items-center">
+          <div class="col">
+            <h2 class="page-title">
+              Solicitudes
+            </h2>
+          </div>
+
+
+               <div class="col-12 col-md-auto ms-auto d-print-none">                            
+                    <span class="dropdown">
+                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Acciones</button>
+                        <div class="dropdown-menu dropdown-menu-end">
+
+
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#filtermodal">Filtrar</a>
+                            <a class="dropdown-item" href="{{ path('export_excel') }}">Exportar</a>
+                        
+                        </div>
+                    </span>
+
+                    <div class="modal modal-blur fade" id="filtermodal" role="dialog" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Filtros</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                                <form id="filter-form" class="form" novalidate="novalidate">
+
+                                    <div class="mb-3">
+                                        <label for="nombre">Rango de Fecha</label>
+                                        <input type="text" id="daterange" name="daterange" class="form-control daterange" autocomplete="off" aria-required="true" value="">
+                                    </div>
+
+                                </form>                                
+                          </div>
+                          <div class="modal-footer">
+                          
+                            <button id="limpiar" type="button" class="btn me-auto">Limpiar</button>
+                            <button id="filtrar" type="button" class="btn btn-primary">Filtrar</button>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+              </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xxl">
+            <div class="row row-cards">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Listado</h3>
+
+                            <a href="{{ path('solicitud_new') }}" class="btn btn-primary ms-auto">Insertar</a>
+                        </div>
+                        <div class="card-body">
+
+                        
+                            <div class="col-12 pt-1">
+
+                            <div class="table-responsive">
+                            <table class="table card-table table-vcenter text-nowrap datatable" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>CD</th>
+                                        <th width="30">Código</th>
+                                        <th>T. Trámite</th>    
+                                        <th>Producto</th>
+
+
+                                        <th>Solicitante</th>
+
+                                    
+                                        <th>Preevaluación</th>
+                                        <th>Pago</th>
+                                        <th>F. Entrada</th>
+                                        <th>Estado</th>
+                                        
+                                        
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            </div>
+                            </div>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+    <script>
+
+        //select_menu('configuracion_menu');
+        
+        $(document).ready(function() {
+
+            /* Generando el componente DataTable */
+            var Nosortcol = [];
+            var route = Routing.generate('solicitud_dataTable');
+            var dataTable = createDataTable(Nosortcol, route);
+
+
+            $('#filtrar').click(function (e) {
+
+                var daterange = $('#daterange').val();
+            
+                $('#loading').removeClass('d-none');
+
+                dataTable.destroy();
+                var Nosortcol = [];
+                route = Routing.generate('solicitud_dataTable', {'daterange': daterange});
+                dataTable = createDataTable(Nosortcol, route);
+
+                $('#filtermodal').modal('hide');
+
+            });
+
+            $('#limpiar').click(function () {
+                $('#filter-form').trigger("reset");
+
+                dataTable.destroy();
+                var Nosortcol = [];
+                route = Routing.generate('solicitud_dataTable');
+                dataTable = createDataTable(Nosortcol, route);
+
+                $('#filtermodal').modal('hide');
+            });
+
+            {# Incluyendo la vista que contiene los mensajes de alertas #}
+            {{ include("message.html.twig") }}
+
+
+        });
+
+    </script>
+
+{% endblock %}
+
